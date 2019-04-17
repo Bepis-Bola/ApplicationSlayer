@@ -6,8 +6,11 @@ import tkinter as tk
 from tkinter import *
 from _thread import start_new_thread
 
+RemTime = 3600
+MachID = "0000000"
+
 #print(psutil.pids())
-isOn = False
+isOn = True
 isOn2 = False
 count = 0
 
@@ -21,6 +24,7 @@ def message():
 
 def on():
     global isOn
+    global RemTime
     while True:
         time.sleep(5)
         #print("isOn:" + str(isOn))
@@ -35,13 +39,13 @@ def on():
                 for pid in psutil.pids():
                     p = psutil.Process(pid)
 
-                    #print(p.name())
+                    # print(p.name())
                     # if "" in p_list:
                     #     if "" in p.name():
                     #         os.kill(pid, signal.SIGTERM)
                     #         print ("Killed app")
                     #         message()
-                    if "MinecraftLauncher.exe" in p_list:
+                    if "MinecraftLauncher.exe" in p_list or "Minecraft.exe" in p_list:
                         if "javaw" in p.name():
                             os.kill(pid, signal.SIGTERM)
                             print ("Killed app")
@@ -115,8 +119,11 @@ def on():
             except:
                 #print("Something went wrong, retrying")
                 count = 0
-
-
+        else:
+            RemTime -= 5
+            print("Time left: " + str(RemTime))
+            # update the time left in the UI
+            
 def timer():
     global isOn
     Hours = (int(e1.get()))
@@ -124,11 +131,11 @@ def timer():
     Seconds = (int(e3.get()))
     Time = Hours * 3600 + Minutes * 60 + Seconds
     print("Turning on timer for " + str(Time) + " Seconds")
-    isOn = True
+    isOn = False
     time.sleep(Time)
-    if isOn == True:
+    if isOn == False:
         print("Turning off timer")
-        isOn = False
+        isOn = True
 
 def on2():
     start_new_thread(timer, ())
@@ -165,17 +172,20 @@ master = Tk()
 Label(master, text="Hours").grid(row=0)
 Label(master, text="Minutes").grid(row=1)
 Label(master, text="Seconds").grid(row=2)
+Label(master, text='Time Left:').grid(row=3)
 
 e1 = Entry(master)
 e2 = Entry(master)
 e3 = Entry(master)
+e4 = Entry(master)
 
 e1.grid(row=0, column=1)
 e2.grid(row=1, column=1)
 e3.grid(row=2, column=1)
-Button(master, text='Set Timer', command=on2).grid(row=3, column=1, sticky=W, pady=4)
-Button(master, text='On/Off', command=setOn).grid(row=3, column=2, sticky=W, pady=4)
-Button(master, text='Quit', command=quit).grid(row=3, column=0, sticky=W, pady=4)
+e4.grid(row=3, column=1)
+Button(master, text='Set Timer', command=on2).grid(row=4, column=1, sticky=W, pady=4)
+Button(master, text='On/Off', command=setOn).grid(row=4, column=2, sticky=W, pady=4)
+Button(master, text='Quit', command=quit).grid(row=4, column=0, sticky=W, pady=4)
 
 
 

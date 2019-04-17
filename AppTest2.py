@@ -5,9 +5,12 @@ import time
 import tkinter as tk
 from tkinter import *
 from _thread import start_new_thread
+import datetime
+from firebase import firebase
+firebase = firebase.FirebaseApplication('https://unity3d-46471.firebaseio.com/', None)
 
-RemTime = 3600
 MachID = "0000000"
+RemTime = int(firebase.get('/aaaclarkproj/' + MachID + '/RemTime', None))
 
 # print(psutil.pids())
 isOn = True
@@ -24,11 +27,12 @@ def message():
     button.pack()
 
 
-def on():
+def on(text1):
     global isOn
     global RemTime
     while True:
         time.sleep(5)
+        RemTime = int(firebase.get('/aaaclarkproj/' + MachID + '/RemTime', None))
         # print("isOn:" + str(isOn))
         if isOn:
             # print("Start")
@@ -123,10 +127,12 @@ def on():
                 count = 0
         else:
             RemTime -= 5
-            print("Time left: " + str(RemTime))
+            print("Time left:  " + str(RemTime))
             # update the time left in the UI
+            text1.set('Time Left: ' + str(datetime.timedelta(seconds=RemTime)))
+            print('Time Left: ' + str(datetime.timedelta(seconds=RemTime)))
+            firebase.put('/aaaclarkproj', name = MachID + '/RemTime', data = RemTime)
 
-#ああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああ
 
 def timer():
     global isOn
@@ -157,7 +163,6 @@ def setOn():
         print("Turning on")
 
 
-start_new_thread(on, ())
 
 # root = tk.Tk()
 # frame = tk.Frame(root)
@@ -172,24 +177,35 @@ start_new_thread(on, ())
 #                    command=setOn)
 # slogan.pack(side=tk.LEFT)
 
+
+
+
 master = Tk()
 Label(master, text="Hours").grid(row=0)
 Label(master, text="Minutes").grid(row=1)
 Label(master, text="Seconds").grid(row=2)
-Label(master, text='Time Left:').grid(row=3)
+
+text1 = StringVar()
+# text1.set('Time Left:' + str(RemTime))
+text1.set('Time Left:' + str(datetime.timedelta(seconds=RemTime)))
+lbl = Label(master, textvariable = text1)
+lbl.grid(row=3)
 
 e1 = Entry(master)
 e2 = Entry(master)
 e3 = Entry(master)
-e4 = Entry(master)
+#e4 = Entry(master)
 
 e1.grid(row=0, column=1)
 e2.grid(row=1, column=1)
 e3.grid(row=2, column=1)
-e4.grid(row=3, column=1)
+#e4.grid(row=3, column=1)
 Button(master, text='Set Timer', command=on2).grid(row=4, column=1, sticky=W, pady=4)
 Button(master, text='On/Off', command=setOn).grid(row=4, column=2, sticky=W, pady=4)
 Button(master, text='Quit', command=quit).grid(row=4, column=0, sticky=W, pady=4)
+
+
+
 
 # hours = int(e1)*3600
 # minutes = int(e2)*60
@@ -198,6 +214,10 @@ Button(master, text='Quit', command=quit).grid(row=4, column=0, sticky=W, pady=4
 # if isOn == True:
 #     time.sleep
 
+start_new_thread(on, (text1,))
+
 master.mainloop()
+
+#フォートナイトが大好き
 
 # REEEEEEEEEEEEEEE
