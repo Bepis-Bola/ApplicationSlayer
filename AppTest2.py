@@ -17,6 +17,7 @@ isOn = True
 isOn2 = False
 count = 0
 
+status = ("off")
 
 def message():
     top = Toplevel()
@@ -26,15 +27,24 @@ def message():
     button = Button(top, text="ok", command=top.destroy)
     button.pack()
 
+def TimesUp():
+    top = Toplevel()
+    top.title("Time's up")
+    msg = Message(top, text="Time's up")
+    msg.pack()
+    button = Button(top, text="ok", command=top.destroy)
+    button.pack()
 
 def on(text1):
     global isOn
     global RemTime
+    global status
     while True:
         time.sleep(5)
         RemTime = int(firebase.get('/aaaclarkproj/' + MachID + '/RemTime', None))
         # print("isOn:" + str(isOn))
         if isOn:
+            status = ("on")
             # print("Start")
             try:
                 p_list = []
@@ -126,26 +136,32 @@ def on(text1):
                 # print("Something went wrong, retrying")
                 count = 0
         else:
-            RemTime -= 5
-            print("Time left:  " + str(RemTime))
-            # update the time left in the UI
-            text1.set('Time Left: ' + str(datetime.timedelta(seconds=RemTime)))
-            print('Time Left: ' + str(datetime.timedelta(seconds=RemTime)))
-            firebase.put('/aaaclarkproj', name = MachID + '/RemTime', data = RemTime)
+            if RemTime <= 0:
+                isOn = True
+                print("Time's up")
+                TimesUp()
+            else:
+                RemTime -= 5
+                print("Time left:  " + str(RemTime))
+                # update the time left in the UI
+                text1.set('Time Left: ' + str(datetime.timedelta(seconds=RemTime)))
+                print('Time Left: ' + str(datetime.timedelta(seconds=RemTime)))
+                firebase.put('/aaaclarkproj', name = MachID + '/RemTime', data = RemTime)
 
 
-def timer():
-    global isOn
-    Hours = (int(e1.get()))
-    Minutes = (int(e2.get()))
-    Seconds = (int(e3.get()))
-    Time = Hours * 3600 + Minutes * 60 + Seconds
-    print("Turning on timer for " + str(Time) + " Seconds")
-    isOn = False
-    time.sleep(Time)
-    if isOn == False:
-        print("Turning off timer")
-        isOn = True
+
+# def timer():
+#     global isOn
+#     Hours = (int(e1.get()))
+#     Minutes = (int(e2.get()))
+#     Seconds = (int(e3.get()))
+#     Time = Hours * 3600 + Minutes * 60 + Seconds
+#     print("Turning on timer for " + str(Time) + " Seconds")
+#     isOn = False
+#     time.sleep(Time)
+#     if isOn == False:
+#         print("Turning off timer")
+#         isOn = True
 
 
 def on2():
@@ -154,13 +170,19 @@ def on2():
 
 def setOn():
     global isOn
+    global status
     if isOn == True:
         isOn = False
+        status = ("off")
         isOn2 = False
         print("Turning off")
     else:
         isOn = True
+        status = ("on")
         print("Turning on")
+
+
+
 
 
 
@@ -181,9 +203,14 @@ def setOn():
 
 
 master = Tk()
-Label(master, text="Hours").grid(row=0)
-Label(master, text="Minutes").grid(row=1)
-Label(master, text="Seconds").grid(row=2)
+# Label(master, text="Hours").grid(row=0)
+# Label(master, text="Minutes").grid(row=1)
+# Label(master, text="Seconds").grid(row=2)
+text2 = StringVar()
+text2.set('Application Slayer is currently ' + str(isOn))
+appstatus = Label(master, textvariable = text2)
+appstatus.grid(row = 0)
+# Label(master, text = "Application Slayer is currently ").grid (row = 0)
 
 text1 = StringVar()
 # text1.set('Time Left:' + str(RemTime))
@@ -191,18 +218,18 @@ text1.set('Time Left:' + str(datetime.timedelta(seconds=RemTime)))
 lbl = Label(master, textvariable = text1)
 lbl.grid(row=3)
 
-e1 = Entry(master)
-e2 = Entry(master)
-e3 = Entry(master)
+# e1 = Entry(master)
+# e2 = Entry(master)
+# e3 = Entry(master)
 #e4 = Entry(master)
 
-e1.grid(row=0, column=1)
-e2.grid(row=1, column=1)
-e3.grid(row=2, column=1)
+# e1.grid(row=0, column=1)
+# e2.grid(row=1, column=1)
+# e3.grid(row=2, column=1)
 #e4.grid(row=3, column=1)
-Button(master, text='Set Timer', command=on2).grid(row=4, column=1, sticky=W, pady=4)
-Button(master, text='On/Off', command=setOn).grid(row=4, column=2, sticky=W, pady=4)
-Button(master, text='Quit', command=quit).grid(row=4, column=0, sticky=W, pady=4)
+# Button(master, text='Set Timer', command=on2).grid(row=4, column=1, sticky=W, pady=4)
+Button(master, text='On/Off', command=setOn).grid(row=4, column=1, sticky=W, pady=4)
+Button(master, text='Quit', command=master.destroy).grid(row=4, column=0, sticky=W, pady=4)
 
 
 
