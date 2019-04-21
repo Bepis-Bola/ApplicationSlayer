@@ -10,8 +10,9 @@ from firebase import firebase
 firebase = firebase.FirebaseApplication('https://unity3d-46471.firebaseio.com/', None)
 
 MachID = "0000000"
-RemTime = int(firebase.get('/aaaclarkproj/' + MachID + '/RemTime', None))
-
+result = str(firebase.get('/aaaclarkproj/' + MachID + '/RemTime', None)).replace('"','')
+print(result)
+RemTime = int(result)
 # print(psutil.pids())
 isOn = True
 isOn2 = False
@@ -41,7 +42,9 @@ def on(text1):
     global status
     while True:
         time.sleep(5)
-        RemTime = int(firebase.get('/aaaclarkproj/' + MachID + '/RemTime', None))
+        result = str(firebase.get('/aaaclarkproj/' + MachID + '/RemTime', None)).replace('"','')
+        print(result)
+        RemTime = int(result)
         # print("isOn:" + str(isOn))
         if isOn:
             status = ("on")
@@ -173,12 +176,12 @@ def setOn():
     global status
     if isOn == True:
         isOn = False
-        status = ("off")
+        text2.set("Application Slayer is off")
         isOn2 = False
         print("Turning off")
     else:
         isOn = True
-        status = ("on")
+        text2.set("Application Slayer is on")
         print("Turning on")
 
 
@@ -207,7 +210,10 @@ master = Tk()
 # Label(master, text="Minutes").grid(row=1)
 # Label(master, text="Seconds").grid(row=2)
 text2 = StringVar()
-text2.set('Application Slayer is currently ' + str(isOn))
+if isOn == True:
+    text2.set('Application Slayer is currently on')
+else:
+    text2.set('Application Slayer is currently off')
 appstatus = Label(master, textvariable = text2)
 appstatus.grid(row = 0)
 # Label(master, text = "Application Slayer is currently ").grid (row = 0)
