@@ -9,6 +9,15 @@ import datetime
 from firebase import firebase
 firebase = firebase.FirebaseApplication('https://unity3d-46471.firebaseio.com/', None)
 
+blacklist = firebase.get('/blacklist', None)
+print(blacklist)
+black_list = []
+for item in blacklist:
+    print(item)
+    black_list.append(item)
+
+
+
 MachID = "0000000"
 result = str(firebase.get('/aaaclarkproj/' + MachID + '/RemTime', None)).replace('"','')
 print(result)
@@ -83,54 +92,57 @@ def on(text1):
                         print("Killed app")
                         message()
                     if "steamwebhelper.exe" in p_list:
-                        if "Fallout" in p.name():
+                        if p.name() in black_list:
                             os.kill(pid, signal.SIGTERM)
                             print("Killed app")
-                            message()
-                        elif "SkyrimSE.exe" in p.name():
-                            os.kill(pid, signal.SIGTERM)
-                            print("Killed app")
-                            message()
-                        elif "Stardew" in p.name():
-                            os.kill(pid, signal.SIGTERM)
-                            print("Killed app")
-                            message()
-                        elif "CorpseParty" in p.name():
-                            os.kill(pid, signal.SIGTERM)
-                            print("Killed app")
-                            message()
-                        elif "hl" in p.name():
-                            os.kill(pid, signal.SIGTERM)
-                            print("Killed app")
-                            message()
-                        elif "Life" in p.name():
-                            os.kill(pid, signal.SIGTERM)
-                            print("Killed app")
-                            message()
-                        elif "lisa" in p.name():
-                            os.kill(pid, signal.SIGTERM)
-                            print("Killed app")
-                            message()
-                        elif "ornflakestein" in p.name():
-                            os.kill(pid, signal.SIGTERM)
-                            print("Killed app")
-                            message()
-                        elif "TESV" in p.name():
-                            os.kill(pid, signal.SIGTERM)
-                            print("Killed app")
-                            message()
-                        elif "Chrono" in p.name():
-                            os.kill(pid, signal.SIGTERM)
-                            print("Killed app")
-                            message()
-                        elif "Civilization" in p.name():
-                            os.kill(pid, signal.SIGTERM)
-                            print("Killed app")
-                            message()
-                        elif "Postal" in p.name():
-                            os.kill(pid, signal.SIGTERM)
-                            print("Killed app")
-                            message()
+                        # if "Fallout" in p.name():
+                        #     os.kill(pid, signal.SIGTERM)
+                        #     print("Killed app")
+                        #     message()
+                        # elif "SkyrimSE.exe" in p.name():
+                        #     os.kill(pid, signal.SIGTERM)
+                        #     print("Killed app")
+                        #     message()
+                        # elif "Stardew" in p.name():
+                        #     os.kill(pid, signal.SIGTERM)
+                        #     print("Killed app")
+                        #     message()
+                        # elif "CorpseParty" in p.name():
+                        #     os.kill(pid, signal.SIGTERM)
+                        #     print("Killed app")
+                        #     message()
+                        # elif "hl" in p.name():
+                        #     os.kill(pid, signal.SIGTERM)
+                        #     print("Killed app")
+                        #     message()
+                        # elif "Life" in p.name():
+                        #     os.kill(pid, signal.SIGTERM)
+                        #     print("Killed app")
+                        #     message()
+                        # elif "lisa" in p.name():
+                        #     os.kill(pid, signal.SIGTERM)
+                        #     print("Killed app")
+                        #     message()
+                        # elif "ornflakestein" in p.name():
+                        #     os.kill(pid, signal.SIGTERM)
+                        #     print("Killed app")
+                        #     message()
+                        # elif "TESV" in p.name():
+                        #     os.kill(pid, signal.SIGTERM)
+                        #     print("Killed app")
+                        #     message()
+                        # elif "Chrono" in p.name():
+                        #     os.kill(pid, signal.SIGTERM)
+                        #     print("Killed app")
+                        #     message()
+                        # elif "Civilization" in p.name():
+                        #     os.kill(pid, signal.SIGTERM)
+                        #     print("Killed app")
+                        #     message()
+                        # elif "Postal" in p.name():
+                        #     os.kill(pid, signal.SIGTERM)
+                        #     print("Killed app")
+                        #     message()
                     if "GeForceNOW" in p.name():
                         os.kill(pid, signal.SIGTERM)
                         print("Killed app")
