@@ -15,6 +15,7 @@ black_list = []
 for item in blacklist:
     print(item)
     black_list.append(item)
+print(black_list)
 
 
 
@@ -67,35 +68,37 @@ def on(text1):
                 for pid in psutil.pids():
                     p = psutil.Process(pid)
 
+#Commented out a lot of code that is now unneccesary
                     # print(p.name())
                     # if "" in p_list:
                     #     if "" in p.name():
                     #         os.kill(pid, signal.SIGTERM)
                     #         print ("Killed app")
                     #         message()
-                    if "MinecraftLauncher.exe" in p_list or "Minecraft.exe" in p_list:
-                        if "javaw" in p.name():
-                            os.kill(pid, signal.SIGTERM)
-                            print("Killed app")
-                            message()
-                    if "Twitch.exe" in p_list:
-                        if "minecraft" in p.name():
-                            os.kill(pid, signal.SIGTERM)
-                            print("Killed app")
-                            message()
-                        elif "javaw" in p.name():
-                            os.kill(pid, signal.SIGTERM)
-                            print("Killed app")
-                            message()
-                    if "Fortnite" in p.name():
-                        os.kill(pid, signal.SIGTERM)
-                        print("Killed app")
-                        message()
-                    if "steamwebhelper.exe" in p_list:
-                        if p.name() in black_list:
-                            os.kill(pid, signal.SIGTERM)
-                            print("Killed app")
-                        # if "Fallout" in p.name():
+                    # if "MinecraftLauncher.exe" in p_list or "Minecraft.exe" in p_list:
+                    #     if "javaw" in p.name():
+                    #         os.kill(pid, signal.SIGTERM)
+                    #         print("Killed app")
+                    #         message()
+                    # if "Twitch.exe" in p_list:
+                    #     if "minecraft" in p.name():
+                    #         os.kill(pid, signal.SIGTERM)
+                    #         print("Killed app")
+                    #         message()
+                    #     elif "javaw" in p.name():
+                    #         os.kill(pid, signal.SIGTERM)
+                    #         print("Killed app")
+                    #         message()
+                    # if "Fortnite" in p.name():
+                    #     os.kill(pid, signal.SIGTERM)
+                    #     print("Killed app")
+                    #     message()
+                    # if "steamwebhelper.exe" in p_list:
+                    #     if p.name() in black_list:
+                    #         os.kill(pid, signal.SIGTERM)
+                    #         print("Killed app")
+                    #         message()
+                    #     # if "Fallout" in p.name():
                         #     os.kill(pid, signal.SIGTERM)
                         #     print("Killed app")
                         #     message()
@@ -143,10 +146,20 @@ def on(text1):
                         #     os.kill(pid, signal.SIGTERM)
                         #     print("Killed app")
                         #     message()
-                    if "GeForceNOW" in p.name():
-                        os.kill(pid, signal.SIGTERM)
-                        print("Killed app")
-                        message()
+
+                    # if p.name() in black_list:
+                    #     os.kill(pid, signal.SIGTERM)
+                    #     print("Killed app")
+                    #     message()
+                    # if "GeForceNOW" in p.name():
+                    #     os.kill(pid, signal.SIGTERM)
+                    #     print("Killed app")
+                    #     message()
+                    for i in range(len(black_list)):
+                        if black_list[i] in p.name():
+                            os.kill(pid, signal.SIGTERM)
+                            print("Killed app")
+                            message()
             except:
                 # print("Something went wrong, retrying")
                 count = 0
