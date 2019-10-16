@@ -203,12 +203,12 @@ def setOn():
     global status
     if isOn == True:
         isOn = False
-        text2.set("Application Slayer is off")
+        text2.set("Temptation Timer is off")
         isOn2 = False
         print("Turning off")
     else:
         isOn = True
-        text2.set("Application Slayer is on")
+        text2.set("Temptation Timer is on")
         print("Turning on")
 
 
@@ -238,9 +238,9 @@ master = Tk()
 # Label(master, text="Seconds").grid(row=2)
 text2 = StringVar()
 if isOn == True:
-    text2.set('Application Slayer is currently on')
+    text2.set('Temptation Timer is currently on')
 else:
-    text2.set('Application Slayer is currently off')
+    text2.set('Temptation Timer is currently off')
 appstatus = Label(master, textvariable = text2)
 appstatus.grid(row = 0)
 # Label(master, text = "Application Slayer is currently ").grid (row = 0)
@@ -276,8 +276,8 @@ Button(master, text='Quit', command=master.destroy).grid(row=4, column=0, sticky
 
 start_new_thread(on, (text1,))
 
-master.mainloop()
+master.mainloop()助けてください。
 
-#フォートナイトが大好き
+#
 
 # REEEEEEEEEEEEEEE
