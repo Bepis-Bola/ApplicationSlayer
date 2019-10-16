@@ -276,8 +276,8 @@ Button(master, text='Quit', command=master.destroy).grid(row=4, column=0, sticky
 
 start_new_thread(on, (text1,))
 
-master.mainloop()助けてください。
+master.mainloop()
 
-#
+#助けてください。
 
 # REEEEEEEEEEEEEEE
