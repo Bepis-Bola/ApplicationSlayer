@@ -157,9 +157,11 @@ def on(text1):
                     #     message()
                     for i in range(len(black_list)):
                         if black_list[i] in p.name():
+                            print(p.name)
                             os.kill(pid, signal.SIGTERM)
                             print("Killed app")
                             message()
+                            break
             except:
                 # print("Something went wrong, retrying")
                 count = 0
@@ -277,7 +279,5 @@ start_new_thread(on, (text1,))
 master.mainloop()
 
 #フォートナイトが大好き
-
-#I CANT PULL ON MY DESKTOP REEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE
 
 # REEEEEEEEEEEEEEE
